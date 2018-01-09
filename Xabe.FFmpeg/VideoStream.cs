@@ -16,6 +16,7 @@ namespace Xabe.FFmpeg
         private string _reverse;
         private string _scale;
         private string _seek;
+        private string _bitrate;
         private string _size;
         private string _videoSpeed;
         private string _watermark;
@@ -36,6 +37,9 @@ namespace Xabe.FFmpeg
         public FileInfo Source { get; internal set; }
 
         /// <inheritdoc />
+        public int Bitrate { get; internal set; }
+
+        /// <inheritdoc />
         public string Build()
         {
             //todo: all params
@@ -43,6 +47,7 @@ namespace Xabe.FFmpeg
             builder.Append(_watermark);
             builder.Append(_scale);
             builder.Append(_codec);
+            builder.Append(_bitrate);
             //builder.Append(_speed);
             builder.Append(_bitsreamFilter);
             builder.Append(_copy);
@@ -154,12 +159,29 @@ namespace Xabe.FFmpeg
         }
 
         /// <inheritdoc />
-        public IVideoStream SetCodec(VideoCodec codec, int bitrate = 0)
+        public IVideoStream SetCodec(VideoCodec codec)
         {
             _codec = $"-codec:v {codec} ";
+            return this;
+        }
 
+        /// <inheritdoc />
+        public IVideoStream SetBitrate(int bitrate, BitrateMultiplicity multiplicity = BitrateMultiplicity.None)
+        {
             if(bitrate > 0)
-                _codec += $"-b:v {bitrate}k ";
+            {
+                string multi = string.Empty;
+                switch(multiplicity)
+                {
+                    case BitrateMultiplicity.Kilobyte:
+                        multi = "k";
+                        break;
+                    case BitrateMultiplicity.Megabyte:
+                        multi = "M";
+                        break;
+                }
+                _bitrate = $"-b:v {bitrate}{multi} ";
+            }
             return this;
         }
 

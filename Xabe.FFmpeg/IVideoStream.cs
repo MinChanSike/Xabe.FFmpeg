@@ -33,6 +33,11 @@ namespace Xabe.FFmpeg
         CodecType CodecType { get; }
 
         /// <summary>
+        /// Bitrate
+        /// </summary>
+        int Bitrate { get; }
+
+        /// <summary>
         ///     Melt watermark into video file
         /// </summary>
         /// <param name="imagePath">Watermark</param>
@@ -57,12 +62,19 @@ namespace Xabe.FFmpeg
         IVideoStream SetSize(VideoSize size);
 
         /// <summary>
-        ///     Set video codec and bitrate
+        ///     Set video codec
         /// </summary>
         /// <param name="codec">Video codec</param>
-        /// <param name="bitrate">Video bitrate</param>
         /// <returns>IVideoStream object</returns>
-        IVideoStream SetCodec(VideoCodec codec, int bitrate = 0);
+        IVideoStream SetCodec(VideoCodec codec);
+
+        /// <summary>
+        ///     Set bitrate
+        /// </summary>
+        /// <param name="bitrate">Video bitrate</param>
+        /// <param name="multiplicity">Bitrate multiplicity</param>
+        /// <returns>IVideoStream object</returns>
+        IVideoStream SetBitrate(int bitrate, BitrateMultiplicity multiplicity = BitrateMultiplicity.None);
 
         /// <summary>
         ///     Set stream to copy with orginal codec

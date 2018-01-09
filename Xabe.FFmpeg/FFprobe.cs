@@ -146,9 +146,9 @@ namespace Xabe.FFmpeg
             }
         }
 
-        private static IEnumerable<ISubtitleStream> PrepareSubtitleStreams(FileInfo fileInfo, IEnumerable<ProbeModel.Stream> audioStreamModels)
+        private static IEnumerable<ISubtitleStream> PrepareSubtitleStreams(FileInfo fileInfo, IEnumerable<ProbeModel.Stream> subtitleStreamModels)
         {
-            foreach(ProbeModel.Stream model in audioStreamModels)
+            foreach(ProbeModel.Stream model in subtitleStreamModels)
             {
                 var stream = new SubtitleStream
                 {
@@ -174,7 +174,8 @@ namespace Xabe.FFmpeg
                     FrameRate = GetVideoFramerate(model),
                     Ratio = GetVideoAspectRatio(model.width, model.height),
                     Source = fileInfo,
-                    Index = model.index
+                    Index = model.index,
+                    Bitrate = (int)model.bit_rate
                 };
                 yield return stream;
             }
